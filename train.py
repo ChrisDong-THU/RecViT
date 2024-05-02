@@ -9,7 +9,7 @@ import argparse
 import numpy as np
 import logging
 
-from model import ReFieldVit
+from model import RecFieldViT
 from dataset import CylinderDataset
 from utils import prep_experiment, save_model, plot3x1
 from config import sensorset
@@ -45,7 +45,7 @@ def train(args):
     args.best_record = {'epoch': -1, 'loss': 1e10}
 
     # 实例化模型
-    net = ReFieldVit().cuda()
+    net = RecFieldViT().cuda()
     net.train()
 
     # 数据加载器

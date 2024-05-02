@@ -1,7 +1,7 @@
 import torch
 import numpy as np
 
-from model import ReFieldVit
+from model import RecFieldViT
 
 if torch.cuda.is_available():
     device_count = torch.cuda.device_count()
@@ -12,7 +12,7 @@ else:
     print("No CUDA devices are available.")
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
-model = ReFieldVit().to(device)
+model = RecFieldViT().to(device)
 
 # 创建模拟输入数据
 input_tensor = torch.randn(8, 1, 112, 192)  # [batch_size, height, width]

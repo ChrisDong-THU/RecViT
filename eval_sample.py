@@ -4,7 +4,7 @@ import torch.nn.functional as F
 import argparse
 import pickle
 
-from model import ReFieldVit
+from model import RecFieldViT
 from dataset import CylinderDataset
 from utils import plot3x1
 from config import sensorset
@@ -27,7 +27,7 @@ def eval(args):
     labels = labels.unsqueeze(0)
 
     # 加载模型
-    net = ReFieldVit().cuda()
+    net = RecFieldViT().cuda()
     net.load_state_dict(torch.load(args.model)['state_dict'])
     print(f'>>> load model {args.model} ...')
     net.eval()

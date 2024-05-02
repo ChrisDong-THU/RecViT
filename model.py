@@ -166,7 +166,7 @@ class MaskTransLayerNorm(nn.Module):
         x = (x - u) / torch.sqrt(s + self.variance_epsilon)
         return self.gamma * x + self.beta
 
-class ReFieldVit(nn.Module):
+class RecFieldViT(nn.Module):
     def __init__(self,
                  image_size = (192, 112),
                  patch_size = 16,

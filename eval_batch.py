@@ -4,7 +4,7 @@ import torch.nn.functional as F
 
 import argparse
 
-from model import ReFieldVit
+from model import RecFieldViT
 from dataset import CylinderDataset
 from utils import plot3x1
 from config import sensorset
@@ -23,7 +23,7 @@ def eval(args):
     eval_loader = DataLoader(eval_dataset, batch_size=32, num_workers=0)
 
     # 加载模型
-    net = ReFieldVit().cuda()
+    net = RecFieldViT().cuda()
     net.load_state_dict(torch.load(args.model)['state_dict'])
     print(f'>>> load model {args.model} ...')
 
