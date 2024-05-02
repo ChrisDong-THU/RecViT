@@ -150,21 +150,21 @@ class VisionTransformer(nn.Module):
         return decoder_embeeding
 
 
-class MaskTransLayerNorm(nn.Module):
+class AdaptiveLayerNorm(nn.Module):
     def __init__(self, hidden_size, eps=1e-12):
         """Construct the normalization for each patchs
         """
-        super(MaskTransLayerNorm, self).__init__()
+        super(AdaptiveLayerNorm, self).__init__()
 
-        self.gamma = nn.Parameter(torch.ones(hidden_size))
-        self.beta = nn.Parameter(torch.zeros(hidden_size))
+        self.gamma = nn.Parameter(torch.ones(hidden_size))  # 缩放
+        self.beta = nn.Parameter(torch.zeros(hidden_size))  # 平移
         self.variance_epsilon = eps
        
     def forward(self, x):
         u = x[:, :].mean(-1, keepdim=True)
         s = (x[:, :] - u).pow(2).mean(-1, keepdim=True)
-        x = (x - u) / torch.sqrt(s + self.variance_epsilon)
-        return self.gamma * x + self.beta
+        x = (x - u) / torch.sqrt(s + self.variance_epsilon)  # 归一化
+        return self.gamma * x + self.beta  # 参数化重构，寻找最优表征
 
 class RecFieldViT(nn.Module):
     def __init__(self,
@@ -212,7 +212,7 @@ class RecFieldViT(nn.Module):
         self.proj = nn.Linear(encoder_dim, decoder_dim) # 线性层将作用于最后一个维度上
         self.restruction = nn.Linear(decoder_dim, output_dim)
         self.norm = nn.LayerNorm(output_dim)
-        self.patch_norm = MaskTransLayerNorm(output_dim)
+        self.patch_norm = AdaptiveLayerNorm(output_dim)
         # restore image from unconv
         self.unconv = nn.ConvTranspose2d(output_dim, 1, patch_size, patch_size)
         
