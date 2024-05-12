@@ -32,7 +32,7 @@ class Attention(nn.Module):
         self.heads = heads
         self.scale = dim_head ** -0.5
 
-        self.norm = nn.LayerNorm(dim)
+        self.norm = nn.LayerNorm(dim) # TODO: 实例归一化对比
 
         self.attend = nn.Softmax(dim = -1)
         self.dropout = nn.Dropout(dropout)
